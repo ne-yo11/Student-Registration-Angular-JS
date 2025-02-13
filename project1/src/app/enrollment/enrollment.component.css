@@ -1,0 +1,40 @@
+/* Dashboard Layout */
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+}
+/* Main Content */
+.main-content {
+  margin-left: 480px; /* Adjusted to match the sidebar width */
+  padding-top: 220px;
+  text-align: center; /* Centers content */
+}
+
+  /* Dashboard Title */
+  .main-content h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #2c3e50;
+    animation: fadeIn 1s ease-in-out;
+  }
+
+  /* Dashboard Description */
+  .main-content p {
+    font-size: 1.2rem;
+    color: #555;
+    max-width: 600px;
+    margin: 10px auto; /* Centers text */
+  }
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,26 @@
+<div class="dashboard-container">
+  <!-- Sidebar with Logo -->
+  <div class="sidebar">
+    <div class="logo-container">
+      <img [src]="'assets/logo.jpg'" alt="Student Registration Logo" class="logo">
+    </div>
+    <ul>
+      <li><a (click)="onDashboard()">Dashboard</a></li>
+      <li><a href="# " (click)="refreshDashboard($event)">Enrollment</a></li>
+      <li><a (click)="onMaster()">Student Master List</a></li>
+      <li><a (click)="onCourse()">Course Master List</a></li>
+    </ul>
+
+    <div class="logout-container">
+      <button class="logout-btn" (click)="onLogout()">Log Out</button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h1>📝 Enrollment Page</h1>
+    <p>Register students into courses.</p>
+
+    <!-- Your existing enrollment form goes here -->
+  </div>
+</div>

@@ -1,0 +1,169 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\DEVOJT\\Documents\\Student-fe\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\masterlist\\masterlist.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:project1\\src\\app\\masterlist\\masterlist.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\masterlist\\masterlist.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:project1\\src\\app\\masterlist\\masterlist.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\enrollment\\enrollment.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:project1\\src\\app\\enrollment\\enrollment.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\dashboard\\dashboard.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:project1\\src\\app\\dashboard\\dashboard.component.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\dashboard\\dashboard.component.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:project1\\src\\app\\dashboard\\dashboard.component.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\masterlist\\masterlist.component.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:project1\\src\\app\\masterlist\\masterlist.component.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\dashboard\\dashboard.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:project1\\src\\app\\dashboard\\dashboard.component.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\app.routes.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:project1\\src\\app\\app.routes.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\app.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:project1\\src\\app\\app.module.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 8,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "enrollment.component.html",
+              "DocumentMoniker": "C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\enrollment\\enrollment.component.html",
+              "RelativeDocumentMoniker": "project1\\src\\app\\enrollment\\enrollment.component.html",
+              "ToolTip": "C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\enrollment\\enrollment.component.html",
+              "RelativeToolTip": "project1\\src\\app\\enrollment\\enrollment.component.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-13T00:33:04.928Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "masterlist.component.css",
+              "DocumentMoniker": "C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\masterlist\\masterlist.component.css",
+              "RelativeDocumentMoniker": "project1\\src\\app\\masterlist\\masterlist.component.css",
+              "ToolTip": "C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\masterlist\\masterlist.component.css",
+              "RelativeToolTip": "project1\\src\\app\\masterlist\\masterlist.component.css",
+              "ViewState": "AgIAADsAAAAAAAAAAAAuwEYAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-02-12T08:40:17.7Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "dashboard.component.css",
+              "DocumentMoniker": "C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\dashboard\\dashboard.component.css",
+              "RelativeDocumentMoniker": "project1\\src\\app\\dashboard\\dashboard.component.css",
+              "ToolTip": "C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\dashboard\\dashboard.component.css",
+              "RelativeToolTip": "project1\\src\\app\\dashboard\\dashboard.component.css",
+              "ViewState": "AgIAADMAAAAAAAAAAAAAAFgAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-02-12T08:13:10.246Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "dashboard.component.html",
+              "DocumentMoniker": "C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\dashboard\\dashboard.component.html",
+              "RelativeDocumentMoniker": "project1\\src\\app\\dashboard\\dashboard.component.html",
+              "ToolTip": "C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\dashboard\\dashboard.component.html",
+              "RelativeToolTip": "project1\\src\\app\\dashboard\\dashboard.component.html",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABUAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-12T08:06:35.739Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "masterlist.component.html",
+              "DocumentMoniker": "C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\masterlist\\masterlist.component.html",
+              "RelativeDocumentMoniker": "project1\\src\\app\\masterlist\\masterlist.component.html",
+              "ToolTip": "C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\masterlist\\masterlist.component.html",
+              "RelativeToolTip": "project1\\src\\app\\masterlist\\masterlist.component.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-12T08:06:31.92Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "app.module.ts",
+              "DocumentMoniker": "C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\app.module.ts",
+              "RelativeDocumentMoniker": "project1\\src\\app\\app.module.ts",
+              "ToolTip": "C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\app.module.ts",
+              "RelativeToolTip": "project1\\src\\app\\app.module.ts",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAkAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-02-12T08:02:53.836Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "app.routes.ts",
+              "DocumentMoniker": "C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\app.routes.ts",
+              "RelativeDocumentMoniker": "project1\\src\\app\\app.routes.ts",
+              "ToolTip": "C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\app.routes.ts",
+              "RelativeToolTip": "project1\\src\\app\\app.routes.ts",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-02-12T08:02:22.465Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "dashboard.component.ts",
+              "DocumentMoniker": "C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\dashboard\\dashboard.component.ts",
+              "RelativeDocumentMoniker": "project1\\src\\app\\dashboard\\dashboard.component.ts",
+              "ToolTip": "C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\dashboard\\dashboard.component.ts",
+              "RelativeToolTip": "project1\\src\\app\\dashboard\\dashboard.component.ts",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA8AAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-02-12T08:00:56.999Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "masterlist.component.ts",
+              "DocumentMoniker": "C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\masterlist\\masterlist.component.ts",
+              "RelativeDocumentMoniker": "project1\\src\\app\\masterlist\\masterlist.component.ts",
+              "ToolTip": "C:\\Users\\DEVOJT\\Documents\\Student-fe\\project1\\src\\app\\masterlist\\masterlist.component.ts",
+              "RelativeToolTip": "project1\\src\\app\\masterlist\\masterlist.component.ts",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAE0AAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-02-12T08:00:08.579Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
