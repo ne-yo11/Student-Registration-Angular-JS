@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common'; // ✅ Import for *ngIf
   encapsulation: ViewEncapsulation.Emulated,
   imports: [CommonModule] // ✅ Import CommonModule for *ngIf
 })
-export class LoginComponent {
+export class LoginComponent  {
   @ViewChild('usernameInput') usernameInput!: ElementRef;
   @ViewChild('passwordInput') passwordInput!: ElementRef;
 

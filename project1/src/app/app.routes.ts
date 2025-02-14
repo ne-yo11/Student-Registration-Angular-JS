@@ -14,5 +14,5 @@ export const routes: router.Routes = [
   { path: 'sidebar', component: SidebarComponent },
   { path: 'courselist', component: CourselistComponent },
   { path: 'masterlist', component: MasterlistComponent },
-  { path: '**', redirectTo: 'dashboard' } // ✅ Redirect unknown routes to Dashboard instead of login
+  { path: '**', redirectTo: 'dashboard' }
 ];

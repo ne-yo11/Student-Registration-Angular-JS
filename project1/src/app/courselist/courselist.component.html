@@ -6,7 +6,7 @@
     </div>
 
     <ul>
-      <li><a href="#" (click)="refreshDashboard($event)">Dashboard</a></li>
+      <li><a (click)="onDashboard()">Dashboard</a></li>
       <li><a (click)="onEnroll()">Enrollment</a></li>
       <li><a (click)="onMaster()">Student Master List</a></li>
       <li><a (click)="onCourse()">Course Master List</a></li>
@@ -34,29 +34,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>CS101</td>
-          <td>Computer Science</td>
-          <td>4 Years</td>
-          <td>Engineering</td>
-          <td>Introduction to programming and algorithms</td>
-          <td>Active</td>
-        </tr>
-        <tr>
-          <td>BA202</td>
-          <td>Business Administration</td>
-          <td>4 Years</td>
-          <td>Business</td>
-          <td>Principles of management and finance</td>
-          <td>Active</td>
-        </tr>
-        <tr>
-          <td>ART305</td>
-          <td>Fine Arts</td>
-          <td>3 Years</td>
-          <td>Arts & Humanities</td>
-          <td>History and techniques of visual arts</td>
-          <td>Inactive</td>
+        <tr *ngFor="let course of service.list">
+          <td>{{ course.courseCode }}</td>
+          <td>{{ course.courseName }}</td>
+          <td>{{ course.duration }} Semesters</td>
+          <td>{{ course.department }}</td>
+          <td>{{ course.description }}</td>
+          <td>
+            <span [ngClass]="{'active': course.status === 'Active', 'inactive': course.status === 'Inactive'}">
+              {{ course.status }}
+            </span>
+          </td>
         </tr>
       </tbody>
     </table>

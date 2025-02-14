@@ -1,50 +1,27 @@
-import { Component, ViewEncapsulation, AfterViewInit } from '@angular/core';
+import { Component, ViewEncapsulation ,OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { CourselistService } from './courselist.service';
+import { CommonModule, NgFor, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-courselist',
   templateUrl: './courselist.component.html',
   styleUrls: ['./courselist.component.css'],
-  encapsulation: ViewEncapsulation.Emulated
+  standalone: true,
+  encapsulation: ViewEncapsulation.Emulated,
+  imports: [CommonModule, NgFor, NgClass]
 })
-export class CourselistComponent implements AfterViewInit {
-  constructor(private router: Router) { }
+export class CourselistComponent implements OnInit {
+  constructor(private router: Router, public service: CourselistService) {
 
-  courses = [
-    { name: 'Computer Science', code: 'CS101', duration: '4', department: 'IT', description: 'Programming basics', status: 'Active' },
-    { name: 'Business Management', code: 'BM202', duration: '3', department: 'Business', description: 'Management principles', status: 'Inactive' },
-  ];
-
-  ngAfterViewInit() {
-    this.renderTable();
+   }
+  ngOnInit(): void {
+    this.service.refreshList();
   }
 
-  renderTable() {
-    const tableBody = document.getElementById('courseTableBody');
-    if (tableBody) {
-      tableBody.innerHTML = '';
 
-      this.courses.forEach(course => {
-        const row = document.createElement('tr');
-
-        row.innerHTML = `
-          <td>${course.name}</td>
-          <td>${course.code}</td>cls\
-
-          <td>${course.duration}</td>
-          <td>${course.department}</td>
-          <td>${course.description}</td>
-          <td><span class="${course.status === 'Active' ? 'active' : 'inactive'}">${course.status}</span></td>
-        `;
-
-        tableBody.appendChild(row);
-      });
-    }
-  }
-
-  refreshDashboard(event: Event) {
-    event.preventDefault();
-    window.location.reload();
+  onDashboard() {
+    this.router.navigate(['/dashboard']);
   }
 
   onEnroll() {

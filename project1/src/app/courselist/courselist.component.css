@@ -32,8 +32,8 @@
   }
 
   .course-table th, .course-table td {
-    padding: 12px;
-    text-align: left;
+    padding: 15px 5px;
+    text-align: center;
     border: 1px solid #ddd;
   }
 

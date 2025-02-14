@@ -10,6 +10,7 @@ import { MasterlistComponent } from './masterlist/masterlist.component';
 import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { CourselistComponent } from './courselist/courselist.component';
 //import your components
 
 
@@ -20,7 +21,9 @@ import { CommonModule } from '@angular/common';
     DashboardComponent,
     EnrollmentComponent,
     SidebarComponent,
-    MasterlistComponent //add every new component here to generate import
+    MasterlistComponent, //add every new component here to generate import
+    CourselistComponent,
+    CommonModule
   ],
   imports: [
     BrowserModule,
