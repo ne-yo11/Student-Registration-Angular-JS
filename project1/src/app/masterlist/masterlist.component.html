@@ -1,86 +1,137 @@
 <div class="masterlist-container">
-  <!-- Sidebar with Logo -->
-  <div class="sidebar">
-    <div class="logo-container">
-      <img [src]="'assets/logo.jpg'" alt="Student Registration Logo" class="logo">
-    </div>
-    <ul>
-      <li><a (click)="Dashboard()">Dashboard</a></li>
-      <li><a (click)="onEnroll()">Enrollment</a></li>
-      <li><a (click)="onMaster($event)">Student Master List</a></li>
-      <li><a (click)="onCourse()">Course Master List</a></li>
-    </ul>
-
-    <div class="logout-container">
-      <button class="logout-btn" (click)="onLogout()">Log Out</button>
-    </div>
-  </div>
-
-  <!-- Main Content -->
-  <div class="main-content">
-    <h1>📚 Student Master List</h1>
-    <p>Manage all Student.</p>
-
-    <div class="table-container">
-      <div class="table-scroll">
-        <table class="course-table">
-          <thead>
-            <tr>
-              <th>Student Code</th>
-              <th>Name</th>
-              <th>Birthdate</th>
-              <th>Age</th>
-              <th>Gender</th>
-              <th>Address</th>
-              <th>Contact Numbers</th>
-              <th>Guardian Name</th>
-              <th>Address</th>
-              <th>Contact Numbers</th>
-              <th>Course Name</th>
-              <th>Course Code</th>
-              <th>Status</th>
-              <th>Certificates</th>
-              <th>Hobby</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>SC25-0001</td>
-              <td>Neovern Enricoso Ando</td>
-              <td>2001-12-29</td>
-              <td>23</td>
-              <td>Male</td>
-              <td>Cawayan</td>
-              <td>09343434</td>
-              <td>Many pakyaw</td>
-              <td>Cawayan</td>
-              <td>09343434</td>
-              <td>Bachelor of Science in Information Technology</td>
-              <td>IT101</td>
-              <td>Enrolled</td>
-              <td>NULL</td>
-              <td>Boxing</td>
-            </tr>
-            <tr>
-              <td>SC25-0001</td>
-              <td>Neovern Enricoso Ando</td>
-              <td>2001-12-29</td>
-              <td>23</td>
-              <td>Male</td>
-              <td>Cawayan</td>
-              <td>09343434</td>
-              <td>Many pakyaw</td>
-              <td>Cawayan</td>
-              <td>09343434</td>
-              <td>Bachelor of Science in Information Technology</td>
-              <td>IT101</td>
-              <td>Enrolled</td>
-              <td>NULL</td>
-              <td>Boxing</td>
-            </tr>
-          </tbody>
-        </table>
+        <!-- Sidebar with Logo -->
+        <div class="sidebar">
+          <div class="logo-container">
+            <img [src]="'assets/logo.jpg'" alt="Student Registration Logo" class="logo">
+          </div>
+          <ul>
+            <li><a (click)="onDashboard()">Dashboard</a></li>
+            <li><a (click)="onEnroll()">Enrollment</a></li>
+            <li><a (click)="onMaster()">Student Master List</a></li>
+            <li><a (click)="onCourse()">Course Master List</a></li>
+          </ul>
+          <div class="logout-container">
+            <button class="logout-btn" (click)="onLogout()">Log Out</button>
+          </div>
+        </div>
+         
+        <!-- Main Content -->
+        <div class="main-content">
+          <h1>📚 Student Master List</h1>
+          <p>Manage all Students.</p>
+         
+          <!-- Filter Section -->
+          <div class="filter-container">
+                <input
+    type="text"
+    placeholder="🔍 Search All Data"
+    [(ngModel)]="generalSearch"
+    (ngModelChange)="applyGeneralSearch()"
+  />
+            <input type="text" placeholder="🔍 Search by Name" #nameFilter>
+            <input type="text" placeholder="📚 Search by Course" #courseFilter>
+            <!-- Dropdown for Year Level -->
+  <select #yearLevelFilter>
+        <option value="">🎓 Select Year Level</option>
+        <option value="1">1st Year</option>
+        <option value="2">2nd Year</option>
+        <option value="3">3rd Year</option>
+        <option value="4">4th Year</option>
+      </select>
+            <button class="search-btn" (click)="applyFilter(nameFilter.value, courseFilter.value, yearLevelFilter.value)">
+              🔎 Search
+            </button>
+            <button class="reset-btn" (click)="clearFilters(nameFilter, courseFilter, yearLevelFilter)">🔄 Reset</button>
+          </div>
+         
+          <!-- Table -->
+          <div class="table-container">
+        <div class="table-scroll">
+            <table class="course-table">
+              <thead>
+                <tr>
+                  <th>Student Code</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Middle Name</th>
+                  <th>Birthdate</th>
+                  <th>Age</th>
+                  <th>Gender</th>
+                  <th>Address</th>
+                  <th>Contact Numbers</th>
+                  <th>Guardian Name</th>
+                  <th>Guardian Address</th>
+                  <th>Guardian Contact</th>
+                  <th>Course Name</th>
+                  <th>Course Code</th>
+                  <th>Status</th>
+                  <th>Certificates</th>
+                  <th>Hobby</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let student of filteredStudents; let i = index">
+                  <td>{{ student.studentCode }}</td>
+                  <td>{{ student.firstName }}</td>
+                  <td>{{ student.lastName }}</td>
+                  <td>{{ student.middleName }}</td>
+                  <td>{{ student.birthdate }}</td>
+                  <td>{{ student.age }}</td>
+                  <td>{{ student.gender }}</td>
+                  <td>{{ student.address }}</td>
+                  <td>{{ student.contact }}</td>
+                  <td>{{ student.guardianName }}</td>
+                  <td>{{ student.guardianAddress }}</td>
+                  <td>{{ student.guardianContact }}</td>
+                  <td>{{ student.courseName }}</td>
+                  <td>{{ student.courseCode }}</td>
+                  <td>{{ student.courseStatus }}</td>
+                  <td>{{ student.documents }}</td>
+                  <td>{{ student.hobby }}</td>
+                  <td>
+                    <button class="edit-btn" (click)="onEdit(i)">✏️ Edit</button>
+                    <button class="remove-btn" (click)="removeStudent(i)">🗑️ Remove</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+          </div>
+        </div>
+        
+        <!-- Edit Form Modal -->
+        <div *ngIf="isEditing" class="modal-overlay">
+          <div class="modal-content">
+            <h2>Edit Student</h2>
+            <form [formGroup]="editForm" (ngSubmit)="updateStudent()">
+              <label for="firstname">First Name:</label>
+              <input id="firstname" type="text" formControlName="firstname" placeholder="firstname">
+              
+              <label for="lastname">Last Name:</label>
+              <input id="lastname" type="text" formControlName="lastname" placeholder="lastname">
+              
+              <label for="middlename">Middle Name:</label>
+              <input id="middlename" type="text" formControlName="middlename" placeholder="middlename">
+               
+              <label for="address">Address:</label>
+              <input id="address" type="text" formControlName="address" placeholder="Address">
+              
+              <label for="contact">Contact:</label>
+              <input id="contact" type="text" formControlName="contact" placeholder="Contact">
+              
+              <label for="courseName">Course Name:</label>
+              <input id="courseName" type="text" formControlName="courseName" placeholder="Course Name">
+              
+              <label for="courseCode">Course Code:</label>
+              <input id="courseCode" type="text" formControlName="courseCode" placeholder="Course Code">
+              
+              <div class="modal-actions">
+                <button type="submit" class="save-btn">💾 Save Changes</button>
+                <button type="button" class="cancel-btn" (click)="cancelEdit()">❌ Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
+      

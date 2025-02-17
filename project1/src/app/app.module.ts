@@ -1,5 +1,3 @@
-// app.module.ts
-
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
@@ -11,7 +9,7 @@ import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CourselistComponent } from './courselist/courselist.component';
-//import your components
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
 
 @NgModule({
@@ -21,16 +19,17 @@ import { CourselistComponent } from './courselist/courselist.component';
     DashboardComponent,
     EnrollmentComponent,
     SidebarComponent,
-    MasterlistComponent, //add every new component here to generate import
-    CourselistComponent,
-    CommonModule
+    MasterlistComponent,
+    CourselistComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     CommonModule
   ],
-  providers: [],
+  providers: [
+    provideHttpClient(withInterceptorsFromDi()),
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -5,7 +5,67 @@
   background: #f4f4f4;
   overflow: hidden; 
 }
-
+ 
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background-color: #2c3e50;
+  color: white;
+  padding: 20px;
+  position: fixed;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+ 
+  .sidebar ul {
+    list-style-type: none;
+    padding: 0;
+  }
+ 
+    .sidebar ul li {
+      margin: 15px 0;
+    }
+ 
+      .sidebar ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        display: block;
+        padding: 10px;
+        text-align: center;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+      }
+ 
+        .sidebar ul li a:hover {
+          background-color: #34495e;
+        }
+ 
+.logout-container {
+  text-align: center;
+  margin-top: auto;
+}
+ 
+.logout-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+ 
+  .logout-btn:hover {
+    background-color: #c0392b;
+  }
+ 
 /* Main Content */
 .main-content {
   margin-left: 240px;
@@ -15,12 +75,12 @@
   display: flex;
   flex-direction: column;
 }
-
+ 
 /* Table Wrapper */
 .table-container {
-  width:160vh;
+  width: 160vh;
   flex-grow: 1;
-  overflow: hidden; /* Prevents external overflow */
+  overflow-x: auto; /* Enable horizontal scrolling */
   background: white;
   padding: 10px;
   border-radius: 8px;
@@ -28,30 +88,169 @@
   display: flex;
   flex-direction: column;
 }
+
 .table-scroll {
-  overflow-y: auto;
-  overflow-x: auto;
-  max-height: calc(100vh - 220px); /* Adjust based on available space */
-  border-radius: 8px;
+  overflow-x: auto; 
+  overflow-y: hidden;
+  width: 100%;
 }
+ 
 /* Course Table */
 .course-table {
   width: 100%;
-  min-width: max-content;
+  min-width: max-content; /* Ensure table is wide enough to force scrolling */
   border-collapse: collapse;
-  white-space: nowrap;
+  white-space: nowrap; /* Prevent wrapping of text */
 }
-
+ 
   .course-table th,
   .course-table td {
     border: 1px solid #ddd;
     padding: 10px;
     text-align: left;
   }
-
+ 
   .course-table thead {
     position: sticky;
     top: 0;
     background-color: #f4f4f4;
     z-index: 2;
+  }
+ 
+.filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 10px;
+}
+ 
+.filter-container input,
+.filter-container select,
+.filter-container button {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+  }
+ 
+.search-btn, .reset-btn {
+  min-width: 120px; 
+  cursor: pointer;
+  transition: 0.3s;
+}
+ 
+.search-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+ 
+  .search-btn:hover {
+    background-color: #0056b3;
+  }
+ 
+.reset-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+}
+ 
+  .reset-btn:hover {
+    background-color: #a71d2a;
+  }
+.edit-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin-right: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+ 
+.remove-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+ 
+.edit-btn:hover {
+  background-color: #0056b3;
+}
+ 
+.remove-btn:hover {
+  background-color: #c82333;
+}
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+ 
+/* Modal Content */
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+ 
+  /* Form Styling */
+  .modal-content input {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+ 
+/* Button Container */
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+ 
+/* Save Button */
+.save-btn {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+ 
+  .save-btn:hover {
+    background-color: #218838;
+  }
+ 
+/* Cancel Button */
+.cancel-btn {
+  background-color: #dc3545;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+ 
+  .cancel-btn:hover {
+    background-color: #c82333;
   }

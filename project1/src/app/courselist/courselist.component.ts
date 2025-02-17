@@ -1,7 +1,7 @@
 import { Component, ViewEncapsulation ,OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CourselistService } from './courselist.service';
-import { CommonModule, NgFor, NgClass } from '@angular/common';
+import { CommonModule, NgFor} from '@angular/common';
 
 @Component({
   selector: 'app-courselist',
@@ -9,14 +9,14 @@ import { CommonModule, NgFor, NgClass } from '@angular/common';
   styleUrls: ['./courselist.component.css'],
   standalone: true,
   encapsulation: ViewEncapsulation.Emulated,
-  imports: [CommonModule, NgFor, NgClass]
+  imports: [CommonModule, NgFor]
 })
 export class CourselistComponent implements OnInit {
   constructor(private router: Router, public service: CourselistService) {
 
    }
   ngOnInit(): void {
-    this.service.refreshList();
+    this.service.courselist();
   }
 
 
@@ -37,6 +37,9 @@ export class CourselistComponent implements OnInit {
   }
 
   onLogout() {
+    localStorage.removeItem('token'); // Or whatever storage method you're using
+
+    // Optionally, navigate to the login page
     this.router.navigate(['/']);
   }
 }

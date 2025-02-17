@@ -3,8 +3,10 @@
     "",
     "\\src",
     "\\src\\app",
+    "\\src\\app\\app",
+    "\\src\\app\\app\\courselist",
     "\\src\\app\\courselist",
-    "\\src\\assets"
+    "\\src\\app\\masterlist"
   ],
   "PreviewInSolutionExplorer": false
 }
