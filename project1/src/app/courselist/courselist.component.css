@@ -3,6 +3,7 @@
     display: flex;
     height: 100vh;
     background: #f4f4f4;
+    font-family: 'Roboto', sans-serif; /* Modern font */
   }
   /* Main Content */
   .main-content {

@@ -8,7 +8,7 @@ import { CommonModule, NgFor, NgClass } from '@angular/common';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  imports: [CommonModule, NgFor, NgClass]
+  imports: [CommonModule]
 })
 export class LoginComponent {
   @ViewChild('usernameInput') usernameInput!: ElementRef;

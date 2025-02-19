@@ -1,24 +1,37 @@
 <div class="dashboard-container">
   <!-- Sidebar with Logo -->
   <div class="sidebar">
-    <div class="logo-container">
-      <img src="assets/logo.jpg" alt="Student Registration Logo" class="logo">
-    </div>
-    <ul>
-      <li><a href="#" (click)="refreshDashboard($event)">Dashboard</a></li>
-      <li><a (click)="onEnroll()">Enrollment</a></li>
-      <li><a (click)="onMaster()">Student Master List</a></li>
-      <li><a (click)="onCourse()">Course Master List</a></li>
-    </ul>
-
-    <div class="logout-container">
-      <button class="logout-btn" (click)="onLogout()">Log Out</button>
-    </div>
+  <div class="logo-container">
+    <img src="images/logo.jpg" class="logo">
   </div>
-
-  <!-- Main Content -->
-  <div class="main-content">
-    <h1>📊 THIS IS DASHBOARD</h1>
-    <p>Welcome to the student management system.</p>
+  <ul>
+  <li><a href="#" (click)="refreshDashboard($event)">Dashboard</a></li>
+  <li><a (click)="onEnroll()">Enrollment</a></li>
+  <li><a (click)="onMaster()">Student Master List</a></li>
+  <li><a (click)="onCourse()">Course Master List</a></li>
+  </ul>
+   
+      <div class="logout-container">
+  <button class="logout-btn" (click)="onLogout()">Log Out</button>
   </div>
-</div>
+  </div>
+   
+    <div class="main-content">
+  <h1>📊 DASHBOARD OVERVIEW</h1>
+  <p>Welcome to the student management system.</p>
+   
+      <div class="charts-container">
+  <!-- Total Student Enrollment (Bar Chart) -->
+  <div class="chart-box large-chart">
+  <h2>Total Student Enrollment</h2>
+  <canvas #studentChart></canvas>
+  </div>
+   
+        <!-- Course Status (Pie Chart) -->
+  <div class="chart-box small-chart">
+  <h2>Course Status</h2>
+  <canvas #courseChart></canvas>
+  </div>
+  </div>
+  </div>
+  </div>
