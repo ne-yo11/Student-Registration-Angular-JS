@@ -12,7 +12,7 @@ export class Masterlist {
     guardianAddress?: string;
     guardianContact?: string;
     hobby?: string;
-    documents?: string[]; 
+    documents?: { fileName: string; fileType: string; data: string }[];
     courseCode?: string;
     courseName?: string;
     courseStatus?: string;

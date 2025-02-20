@@ -1,63 +1,221 @@
- /* Dashboard Container */
-  .dashboard-container {
-    display: flex;
-    height: 100vh;
-    background: #f4f4f4;
-    font-family: 'Roboto', sans-serif; /* Modern font */
-  }
-  /* Main Content */
-  .main-content {
-    margin-left: 240px;
-    padding: 40px;
-    flex-grow: 1;
-    text-align: center;
-  }
+/* Dashboard Container */
+.masterlist-container {
+  display: flex;
+  height: 100vh;
+  background: #f4f4f4;
+  overflow: hidden;
+  font-family: 'Roboto', sans-serif; /* Modern font */
+}
 
-  h1 {
-    color: #333;
-  }
+/* Main Content */
+.main-content {
+  margin-left: 240px;
+  padding: 40px;
+  flex-grow: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
 
-  p {
-    color: #666;
-  }
+/* Table Wrapper */
+.table-container {
+  width: 160vh; /* Keep or adjust as desired */
+  flex-grow: 1;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  background: white;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
 
-  /* Course Table */
-  .course-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    background: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-  }
+.table-scroll {
+  overflow-x: auto;
+  overflow-y: auto;
+  width: 100%;
+}
 
-  .course-table th, .course-table td {
-    padding: 15px 5px;
-    text-align: center;
+/* Course Table */
+.course-table {
+  width: 100%;
+  min-width: max-content; /* Ensure table is wide enough to force scrolling */
+  border-collapse: collapse;
+  white-space: nowrap; /* Prevent wrapping of text */
+}
+
+  .course-table th,
+  .course-table td {
     border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
   }
 
-  .course-table th {
+  .course-table thead {
+    position: sticky;
+    top: 0;
     background: #2c3e50;
     color: white;
+    z-index: 2;
   }
 
-  .course-table tbody tr:nth-child(even) {
-    background: #f2f2f2;
+/* Filter Container */
+.filter-container {
+  display: flex;
+  /* Force items to stay on one line */
+  flex-wrap: nowrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 10px;
+}
+
+  .filter-container input,
+  .filter-container select,
+  .filter-container button {
+    padding: 8px; /* slightly smaller padding */
+    font-size: 14px; /* smaller font to fit more items */
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    white-space: nowrap; /* keep placeholder text on one line */
+    flex-shrink: 0; /* prevent items from shrinking too small */
   }
 
-  @media screen and (max-width: 768px) {
-    .dashboard-container {
-      flex-direction: column;
-    }
-    .sidebar {
-      width: 100%;
-      height: auto;
-      position: relative;
-    }
-    .main-content {
-      margin-left: 0;
-      padding: 20px;
-    }
+.search-btn, .reset-btn {
+  min-width: 90px; /* smaller min-width so both buttons fit easily */
+  cursor: pointer;
+  transition: 0.3s;
+  border: none;
+}
+
+.search-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+  .search-btn:hover {
+    background-color: #0056b3;
+  }
+
+.reset-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+  .reset-btn:hover {
+    background-color: #a71d2a;
+  }
+.add-btn {
+  background-color: #28a745; /* A green shade for "Add" */
+  color: white;
+  border: none;
+  min-width: 120px;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.3s;
+  /* optional: margin-left: 10px; if you want spacing after the Reset button */
+}
+
+  .add-btn:hover {
+    background-color: #218838;
+  }
+
+
+/* Action Buttons */
+.edit-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin-right: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+  .edit-btn:hover {
+    background-color: #0056b3;
+  }
+
+.remove-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+  .remove-btn:hover {
+    background-color: #c82333;
+  }
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal Content */
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+  /* Form Styling */
+  .modal-content input {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+/* Button Container */
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+/* Save Button */
+.save-btn {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+  .save-btn:hover {
+    background-color: #218838;
+  }
+
+/* Cancel Button */
+.cancel-btn {
+  background-color: #dc3545;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+  .cancel-btn:hover {
+    background-color: #c82333;
   }

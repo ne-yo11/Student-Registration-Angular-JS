@@ -20,17 +20,22 @@ export class MasterlistService {
     // If token exists, add it to the headers
     const headers = token ? new HttpHeaders().set('Authorization', `Bearer ${token}`) : {};
 
-    this.http.get(this.url, { headers })
-      .subscribe({
-        next: res => {
-          this.list = res as Masterlist[];
-          // Call updateStudentList method after fetching data
-          this.updateStudentList();
-        },
-        error: err => {
-          console.log('Error fetching student list:', err);
-        }
-      });
+    this.http.get<Masterlist[]>(this.url, { headers }).subscribe({
+      next: res => {
+        this.list = res.map(student => ({
+          ...student,
+          documents: Array.isArray(student.documents) ? student.documents : [] 
+        }));
+
+        //console.log('🟢 Updated Student List:', this.list);
+        //console.log('📄 First student documents:', this.list[0]?.documents);
+
+        this.updateStudentList();
+      },
+      error: err => {
+        console.error('❌ Error fetching student list:', err);
+      }
+    });
   }
 
   updateStudentList() {

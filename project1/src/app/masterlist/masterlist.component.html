@@ -87,7 +87,14 @@
                   <td>{{ student.courseName }}</td>
                   <td>{{ student.courseCode }}</td>
                   <td>{{ student.courseStatus }}</td>
-                  <td>{{ student.documents }}</td>
+                  <td>
+                    <ng-container *ngIf="student.documents && student.documents.length > 0; else noDocs">
+                      <button *ngFor="let doc of student.documents" (click)="downloadFile(doc)">
+                        {{ doc.fileName }}
+                      </button>
+                    </ng-container>
+                    <ng-template #noDocs>None</ng-template>
+                  </td>
                   <td>{{ student.hobby }}</td>
                   <td>
                     <button class="edit-btn" (click)="onEdit(i)">✏️ Edit</button>
