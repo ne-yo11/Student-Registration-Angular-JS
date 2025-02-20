@@ -1,138 +1,165 @@
 <div class="masterlist-container">
-      <!-- Sidebar with Logo -->
-      <div class="sidebar">
-      <div class="logo-container">
-            <img src="images/logo.jpg" class="logo">
-      </div>
-      <ul>
+  <!-- Sidebar with Logo -->
+  <div class="sidebar">
+    <div class="logo-container">
+      <img src="images/logo.jpg" class="logo" />
+    </div>
+    <ul>
       <li><a (click)="Dashboard()">Dashboard</a></li>
       <li><a (click)="onEnroll()">Enrollment</a></li>
       <li><a (click)="onMaster($event)">Student Master List</a></li>
       <li><a (click)="onCourse()">Course Master List</a></li>
-      </ul>
-      <div class="logout-container">
+    </ul>
+    <div class="logout-container">
       <button class="logout-btn" (click)="onLogout()">Log Out</button>
-      </div>
-      </div>
-       
-        <!-- Main Content -->
-      <div class="main-content">
-      <h1>📌 Student Registration</h1>
-      <p>Fill out the form below to register a new student.</p>
-       
-          <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
-       
-            <!-- Student Details Container -->
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h1>📌 Student Registration</h1>
+    <p>Fill out the form below to register a new student.</p>
+
+    <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+      <!-- Student Details Container -->
       <div class="form-container">
-      <h2>Student Details</h2>
-       
-              <!-- Name Fields -->
-      <label>First Name:</label>
-      <input type="text" formControlName="firstName" required>
-      <div *ngIf="registrationForm.controls.firstName.invalid && registrationForm.controls.firstName.touched">
-      <p class="error-text">First Name is required!</p>
+        <h2>Student Details</h2>
+
+        <!-- Name Fields -->
+        <label>First Name:</label>
+        <input type="text" formControlName="firstName" required />
+        <div
+          *ngIf="
+            registrationForm.controls['firstName'].invalid &&
+            registrationForm.controls['firstName'].touched
+          "
+        >
+          <p class="error-text">First Name is required!</p>
+        </div>
+
+        <label>Middle Name:</label>
+        <input type="text" formControlName="middleName" />
+
+        <label>Last Name:</label>
+        <input type="text" formControlName="lastName" required />
+        <div
+          *ngIf="
+          registrationForm.controls['lastName'].invalid &&
+          registrationForm.controls['lastName'].touched
+          "
+        >
+          <p class="error-text">Last Name is required!</p>
+        </div>
+
+        <!-- Birthdate -->
+        <label>Birthdate:</label>
+        <input type="date" formControlName="birthdate" required />
+        <div
+          *ngIf="registrationForm.controls['birthdate'].errors?.['invalidBirthdate']"
+        ></div>
+
+        <!-- Age -->
+        <label>Age:</label>
+        <input type="number" formControlName="age" [readonly]="true" required />
+        <div *ngIf="registrationForm.controls['birthdate'].errors?.['invalidAge']">
+          <p class="error-text">Invalid age. Must be between 16 and 100.</p>
+        </div>
+
+        <!-- Gender -->
+        <label>Gender:</label>
+        <select formControlName="gender">
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+
+        <!-- Address -->
+        <label>Address:</label>
+        <input type="text" formControlName="address" required />
+
+        <!-- Contact Number -->
+        <label>Contact Number:</label>
+        <input
+          type="text"
+          formControlName="Contact"
+          placeholder="+63"
+          required
+        />
+        <div
+          *ngIf="registrationForm.controls['Contact'].errors?.['invalidContact']"
+        >
+          <p class="error-text">
+            Contact number must be 11 digits starting with '+63 or 09'.
+          </p>
+        </div>
       </div>
-       
-              <label>Middle Name:</label>
-      <input type="text" formControlName="middleName">
-       
-              <label>Last Name:</label>
-      <input type="text" formControlName="lastName" required>
-      <div *ngIf="registrationForm.controls.lastName.invalid && registrationForm.controls.lastName.touched">
-      <p class="error-text">Last Name is required!</p>
-      </div>
-       
-              <!-- Birthdate -->
-      <label>Birthdate:</label>
-      <input type="date" formControlName="birthdate" required>
-      <div *ngIf="registrationForm.controls.birthdate.errors?.['invalidBirthdate']">
-      </div>
-       
-              <!-- Age -->
-      <label>Age:</label>
-      <input type="number" formControlName="age" [readonly]="true" required>
-      <div *ngIf="registrationForm.controls.age.errors?.['invalidAge']">
-      <p class="error-text">Age must be between 16 and 35 years old.</p>
-      </div>
-       
-              <!-- Gender -->
-      <label>Gender:</label>
-      <select formControlName="gender">
-      <option value="Male">Male</option>
-      <option value="Female">Female</option>
-      <option value="Abad">Abad</option>
-      <option value="Joro">Joro</option>
-      </select>
-       
-              <!-- Address -->
-      <label>Address:</label>
-      <input type="text" formControlName="address" required>
-       
-              <!-- Contact Number -->
-      <label>Contact Number:</label>
-      <input type="text" formControlName="contactNumber" placeholder="+63" required>
-      <div *ngIf="registrationForm.controls.contactNumber.errors?.['invalidContact']">
-      <p class="error-text">Contact number must be 11 digits starting with '+63 or 09'.</p>
-      </div>
-       
-            </div>
-       
-            <!-- Guardian Details Container -->
+
+      <!-- Guardian Details Container -->
       <div class="form-container">
-      <h2>Guardian Details</h2>
-      <label>First Name:</label>
-      <input type="text" formControlName="guardianName" required>
-      <div *ngIf="registrationForm.controls.firstName.invalid && registrationForm.controls.firstName.touched">
-      <p class="error-text">First Name is required!</p>
+        <h2>Guardian Details</h2>
+        <label>First Name:</label>
+        <input type="text" formControlName="guardianName" required />
+        <div
+          *ngIf="
+          registrationForm.controls['guardianName'].invalid &&
+          registrationForm.controls['guardianName'].touched
+          "
+        >
+          <p class="error-text">First Name is required!</p>
+        </div>
+        <label>Guardian Address:</label>
+        <input type="text" formControlName="guardianAddress" required />
+
+        <label>Guardian Contact Number:</label>
+        <input
+          type="text"
+          formControlName="guardianContact"
+          placeholder="+63"
+          required
+        />
+        <div
+          *ngIf="registrationForm.controls['guardianContact'].errors?.['invalidContact']"
+        >
+          <p class="error-text">
+            Guardian contact number must be 11 digits starting with '+63 or 09'.
+          </p>
+        </div>
       </div>
-       
-              <label>Middle Name:</label>
-      <input type="text" formControlName="MiddleName">
-       
-              <label>Last Name:</label>
-      <input type="text" formControlName="guardianLast" required>
-      <div *ngIf="registrationForm.controls.lastName.invalid && registrationForm.controls.lastName.touched">
-      <p class="error-text">Last Name is required!</p>
-      </div>
-       
-              <label>Guardian Address:</label>
-      <input type="text" formControlName="guardianAddress" required>
-       
-              <label>Guardian Contact Number:</label>
-      <input type="text" formControlName="guardianContact" placeholder="+63" required>
-      <div *ngIf="registrationForm.controls.guardianContact.errors?.['invalidContact']">
-      <p class="error-text">Guardian contact number must be 11 digits starting with '+63 or 09'.</p>
-      </div>
-      </div>
-       
-            <!-- Course Selection Container -->
+
+      <!-- Course Selection Container -->
       <div class="form-container">
-      <h2>Course Selection</h2>
-      <label>Course Name:</label>
-      <select formControlName="courseName" required>
-      <option value="Bachelor of Architecture">Bachelor of Architecture</option>
-      <option value="Bachelor of Business Administration">Bachelor of Business Administration</option>
-      <option value="Bachelor of Science in Civil Engineering">Bachelor of Science in Civil Engineering</option>
-      <option value="Computer Science">Computer Science</option>
-      <option value="Bachelor of Science Information Technology">Bachelor of Science Information Technology</option>
-      </select>
-       
-              <label>Course Code:</label>
-      <input type="text" formControlName="courseCode" [readonly]="true" required>
-      <label>Status:</label>
-      <select formControlName="status">
-      <option value="Enrolled">Enrolled</option>
-      <option value="Taken">Taken</option>
-      </select>
+        <h2>Course Selection</h2>
+        <label>Course Name:</label>
+        <select
+          formControlName="courseName"
+          (change)="updateCourseCode($event)"
+          required
+        >
+          <option *ngFor="let course of courses" [value]="course.courseName">
+            {{ course.courseName }}
+          </option>
+        </select>
+
+        <label>Course Code:</label>
+        <input type="text" formControlName="courseCode" readonly required />
+        <label>Status:</label>
+        <select formControlName="CourseStatus">
+          <option value="Enrolled">Enrolled</option>
+          <option value="Taken">Taken</option>
+        </select>
       </div>
-       
-            <!-- Documents Container -->
+      <!-- Hobby -->
       <div class="form-container">
-      <h2>Documents</h2>
-      <input type="file" formControlName="documents" multiple>
+        <h2>Hobby</h2>
+        <input type="text" formControlName="hobby"  />
       </div>
-       
-            <button type="submit" class="submit-btn">Submit Registration</button>
-      </form>
+
+      <!-- Documents Container -->
+      <div class="form-container">
+        <h2>Documents</h2>
+        <input type="file" formControlName="documents" (change)="onFileChange($event)" multiple />
       </div>
-      </div>
+      
+      <button type="submit" class="submit-btn">Submit Registration</button>
+    </form>
+  </div>
+</div>

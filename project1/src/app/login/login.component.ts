@@ -27,7 +27,6 @@ export class LoginComponent {
   
     this.loginService.login(loginData).subscribe({
       next: (response) => {
-        console.log('Response:', response);
         if (response.token) {
           localStorage.setItem('token', response.token);
           console.log('Authentication successful!');

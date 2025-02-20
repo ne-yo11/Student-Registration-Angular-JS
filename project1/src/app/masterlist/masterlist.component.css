@@ -32,7 +32,7 @@
 
 .table-scroll {
   overflow-x: auto; 
-  overflow-y: hidden;
+  overflow-y: auto;
   width: 100%;
 }
  
