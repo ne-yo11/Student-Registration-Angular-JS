@@ -151,6 +151,24 @@
   .remove-btn:hover {
     background-color: #c82333;
   }
+  .restore-btn {
+    background-color: #28a745; /* Green color */
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .restore-btn:hover {
+    background-color: #218838; /* Darker green for hover effect */
+  }
+  
+  .restore-btn:focus {
+    outline: none;
+  }
 
 /* Modal Overlay */
 .modal-overlay {

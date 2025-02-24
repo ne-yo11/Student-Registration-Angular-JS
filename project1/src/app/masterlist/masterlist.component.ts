@@ -48,15 +48,6 @@ export class MasterlistComponent implements OnInit {
   // Fetch the list of students from the service and assign it to the students array
   updateStudentList() {
     this.students = this.service.list;
-
- 
-  this.students.forEach(student => {
-    if (student.courseStatus === 'Active') {
-      student.courseStatus = 'Enrolled';
-    } else if (student.courseStatus !== 'Enrolled') {
-      student.courseStatus = 'Taken';  
-    }
-  });
     this.filteredStudents = [...this.students];
   }
 // Apply the general search filter
@@ -75,6 +66,8 @@ applyGeneralSearch() {
         student.address?.toLowerCase().includes(query) ||
         student.contact?.toLowerCase().includes(query) ||
         student.courseName?.toLowerCase().includes(query) ||
+        student.accountStatus?.toLowerCase().includes(query) ||
+        student.status?.toLowerCase().includes(query) ||
         student.courseCode?.toLowerCase().includes(query) ||
         student.gender?.toLowerCase().includes(query) ||
         student.guardianName?.toLowerCase().includes(query) ||
@@ -170,11 +163,36 @@ applyGeneralSearch() {
     document.body.removeChild(link);
   }
   
-  removeStudent(index: number) {
-    if (confirm("Are you sure you want to remove this student?")) {
-      this.students.splice(index, 1);
-      this.filteredStudents = [...this.students];
+  removeStudent(index: number): void{
+    if (confirm("Are you sure you want to deactivate this student?")) {
+      const studentCode = this.filteredStudents[index].studentCode ?? '';
+
+      this.service.softdeactivateStudent(studentCode).subscribe({
+        next: (res) => {
+          console.log('Student successfully deactivated:', res);
+          alert('Student successfully deactivated!');
+          this.service.getStudentList();
+        },
+        error: (err) => {
+          console.error('Error deactivating student:', err);
+        }
+      });
     }
+  }
+  restoreStudent(index: number): void {
+      if(confirm("Are you sure you want to Reactivate this student?")){
+        const studentCode = this.filteredStudents[index].studentCode ?? '';
+        this.service.softReactivateStudent(studentCode).subscribe({
+          next: (res) => {
+            console.log('Student successfully reactivated:', res);
+            alert('Student successfully reactivated!');
+            this.service.getStudentList();
+          },
+          error: (err) => {
+            console.error('Error reactivating student:', err);
+          }
+        });
+      }
   }
 
   onDashboard() {
@@ -195,7 +213,9 @@ applyGeneralSearch() {
   }
 
   onLogout() {
-    localStorage.removeItem('token'); 
-    this.router.navigate(['/']);
+    if (confirm('Are you sure you want to logout?')) {
+      localStorage.removeItem('token');
+      this.router.navigate(['/login']);
+    }
   }
 }

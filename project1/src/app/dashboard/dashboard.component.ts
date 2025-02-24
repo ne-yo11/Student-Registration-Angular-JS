@@ -1,7 +1,11 @@
-import { Component, AfterViewInit, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef, ViewEncapsulation, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Chart, ChartOptions, ChartType, registerables } from 'chart.js';
- 
+import { environment } from '../../environments/environment';
+import { Dashboard } from '../dashboard/dashboard.model';
+import { DashboardService } from '../dashboard/dashboard.service';
+import { CourseCountDashboard } from './course-count-dashboard.model';
+
 Chart.register(...registerables);
  
 @Component({
@@ -10,30 +14,27 @@ Chart.register(...registerables);
   styleUrls: ['./dashboard.component.css'],
   encapsulation: ViewEncapsulation.Emulated
 })
-export class DashboardComponent implements AfterViewInit {
+export class DashboardComponent implements OnInit, AfterViewInit {
  
-  // Student Enrollment Data
-  studentData = {
-    "First Year": 120,
-    "Second Year": 150,
-    "Third Year": 100,
-    "Fourth Year": 80,
-  };
+   // Student Enrollment Data
+  studentData: Dashboard = { "1": 0, "2": 0, "3": 0, "4": 0 };
  
+  courseData: CourseCountDashboard = { Inactive: 0,Active: 0 };
   // Course Status Data
-  courseData = {
-    "Enrolled": 200,
-    "Taken": 120,
-    "Pending": 60
-  };
+
  
   @ViewChild('studentChart', { static: false }) studentChartCanvas!: ElementRef;
   @ViewChild('courseChart', { static: false }) courseChartCanvas!: ElementRef;
  
   studentChart!: Chart;
   courseChart!: Chart;
+
  
-  constructor(private router: Router) {}
+  constructor(private router: Router, public dashboardService: DashboardService) {}
+  ngOnInit(): void {
+    this.fetchStudentCount();
+    this.fetchCourseCount();
+  }
  
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -45,20 +46,27 @@ export class DashboardComponent implements AfterViewInit {
   }
  
   createStudentChart(): void {
-    const studentLabels = Object.keys(this.studentData);
+    const yearLabelsMap: { [key: string]: string } = {
+      "1": "1st Year",
+      "2": "2nd Year",
+      "3": "3rd Year",
+      "4": "4th Year"
+    };
+  
+    const studentLabels = Object.keys(this.studentData).map(key => yearLabelsMap[key] || key);
     const studentValues = Object.values(this.studentData);
- 
+  
     const ctx = this.studentChartCanvas.nativeElement.getContext('2d');
- 
+  
     if (!ctx) {
       console.error("Canvas context not found!");
       return;
     }
- 
+  
     this.studentChart = new Chart(ctx, {
       type: 'bar',
       data: {
-        labels: studentLabels,
+        labels: studentLabels, // Updated Labels
         datasets: [{
           label: 'Total Enrolled Students',
           data: studentValues,
@@ -70,42 +78,71 @@ export class DashboardComponent implements AfterViewInit {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true
+        onClick: (event, elements) => {
+          if (elements.length > 0) {
+            this.onMaster(); // Redirect to student master list when clicked
           }
         }
       }
     });
   }
- 
+  fetchStudentCount() {
+    this.dashboardService.getStudentCount().subscribe({
+      next: (data) => {
+        this.studentData = data;
+      },
+      error: (error) => {
+        console.error('Error fetching student count:', error);
+      }
+    });
+  }
+  fetchCourseCount() {
+    this.dashboardService.getCoursesCount().subscribe({
+      next: (data) => {
+        this.courseData = data;
+      },
+      error: (error) => {
+        console.error('Error fetching course count:', error);
+      }
+    });
+  }
   createCourseChart(): void {
-    const courseLabels = Object.keys(this.courseData);
+    const courseLabelsMap: { [key: string]: string } = {
+      "1": "Active Courses",
+      "0": "Inactive Courses"
+    };
+
+    const courseLabels = Object.keys(this.courseData).map(key => courseLabelsMap[key] || key);
     const courseValues = Object.values(this.courseData);
- 
+
     const ctx = this.courseChartCanvas.nativeElement.getContext('2d');
- 
+
     if (!ctx) {
       console.error("Canvas context not found!");
       return;
     }
- 
+
     this.courseChart = new Chart(ctx, {
       type: 'pie',
       data: {
-        labels: courseLabels,
+        labels: courseLabels, // Mapped Labels
         datasets: [{
           label: 'Course Status',
           data: courseValues,
-          backgroundColor: ['#2ecc71', '#f1c40f', '#e74c3c']
+          backgroundColor: ['#e74c3c','#2ecc71'] // Green for Active, Red for Inactive
         }]
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        onClick: (event, elements) => {
+          if (elements.length > 0) {
+            this.onCourse(); // Redirect to course master list when clicked
+          }
+        }
       }
     });
-  }
+}
  
   refreshDashboard(event: Event): void {
     event.preventDefault();
@@ -129,6 +166,9 @@ export class DashboardComponent implements AfterViewInit {
   }
  
   onLogout(): void {
-    this.router.navigate(['/login']);
+    if(confirm('Are you sure you want to logout?')) {
+      localStorage.removeItem('token');
+      this.router.navigate(['/login']);
+    }
   }
 }

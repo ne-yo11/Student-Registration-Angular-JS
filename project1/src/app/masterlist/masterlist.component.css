@@ -61,7 +61,7 @@
  
 .filter-container {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 10px;
   justify-content: center;
   align-items: center;
@@ -72,16 +72,19 @@
 .filter-container input,
 .filter-container select,
 .filter-container button {
-    padding: 10px;
-    font-size: 16px;
+    padding: 8px;
+    font-size: 14px;
     border-radius: 8px;
     border: 1px solid #ddd;
+    white-space: nowrap;
+    flex-shrink: 0; 
   }
  
 .search-btn, .reset-btn {
-  min-width: 120px; 
+  min-width: 90px; 
   cursor: pointer;
   transition: 0.3s;
+  border: none;
 }
  
 .search-btn {
@@ -121,6 +124,25 @@
   cursor: pointer;
   border-radius: 5px;
 }
+.restore-btn {
+  background-color: #28a745; /* Green color */
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.restore-btn:hover {
+  background-color: #218838; /* Darker green for hover effect */
+}
+
+.restore-btn:focus {
+  outline: none;
+}
+
  
 .edit-btn:hover {
   background-color: #0056b3;

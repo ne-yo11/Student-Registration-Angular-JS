@@ -14,6 +14,14 @@ export class MasterlistService {
 
   constructor(private http: HttpClient) {}
 
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: token ? `Bearer ${token}` : '',
+    });
+  }
+
   getStudentList() {
     const token = localStorage.getItem('token'); // Retrieve the token from localStorage
     
@@ -22,6 +30,7 @@ export class MasterlistService {
 
     this.http.get<Masterlist[]>(this.url, { headers }).subscribe({
       next: res => {
+        console.log('🟢 Student List:', res);
         this.list = res.map(student => ({
           ...student,
           documents: Array.isArray(student.documents) ? student.documents : [] 
@@ -42,4 +51,14 @@ export class MasterlistService {
     // You may need to notify the component that the data has been updated
     // This could be done with an event or by using observables
   }
+
+  softdeactivateStudent(studentCode: string) {
+   const url = `${environment.apiBaseUrl}/student/Softdeactivate/${studentCode}`;
+   return this.http.put(url, {},{headers: this.getAuthHeaders()});
+  }
+
+  softReactivateStudent(studentCode: string) {
+    const url = `${environment.apiBaseUrl}/student/Softreactivate/${studentCode}`;
+    return this.http.put(url, {},{headers: this.getAuthHeaders()});
+   }
 }

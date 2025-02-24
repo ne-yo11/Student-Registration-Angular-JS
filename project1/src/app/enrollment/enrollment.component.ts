@@ -5,7 +5,7 @@ import { FormGroup, FormControl, Validators, ReactiveFormsModule, ValidationErro
 import { EnrollmentService } from './enrollment.service';
 import { Enrollment } from './enrollment.model';
 import { Course } from '../courselist/course.model';
-
+import Swal from 'sweetalert2';
 
 // Custom Validators
 function birthdateValidator(control: FormControl): ValidationErrors | null {
@@ -60,7 +60,7 @@ export class EnrollmentComponent implements OnInit {
       // Course
       courseName: ['', Validators.required],
       courseCode: ['', Validators.required],
-      CourseStatus: ['Enrolled', Validators.required],
+      status: ['Enrolled', Validators.required],
   
       hobby: ['', Validators.required],
   
@@ -140,13 +140,14 @@ export class EnrollmentComponent implements OnInit {
       // Call service to submit form data
       this.enrollmentService.registerStudent(formData).subscribe({
         next: (response) => {
-          //console.log('Student Registered:', response);
+          console.log('Student Registered:', response);
           alert('Student successfully registered!');
           this.registrationForm.reset();
         },
         error: (error) => {
           console.error('Registration failed:', error);
           alert('Failed to register student. Check console for details.');
+          this.registrationForm.reset();
         }
       });
     }
@@ -156,6 +157,10 @@ export class EnrollmentComponent implements OnInit {
       Object.keys(this.registrationForm.controls).forEach((key) => {
         const control = this.registrationForm.controls[key];
         //console.log(`${key} Errors:`, control.errors);
+        alert("Please double-check the form. Some fields are invalid.");
+        setTimeout(() => {
+          this.router.navigate(['/enrollment']);
+        }, 500);
       });
     }
   }
@@ -220,6 +225,10 @@ export class EnrollmentComponent implements OnInit {
     if (this.registrationForm.dirty && !confirm("You have unsaved changes. Do you really want to leave?")) {
       return;
     }
-    this.router.navigate(['/login']);
+
+    if (confirm('Are you sure you want to logout?')) {
+      localStorage.removeItem('token');
+      this.router.navigate(['/login']);
+    }
   }
 }

@@ -15,5 +15,6 @@ export class Masterlist {
     documents?: { fileName: string; fileType: string; data: string }[];
     courseCode?: string;
     courseName?: string;
-    courseStatus?: string;
+    accountStatus?: string;
+    status?: string;
 }

@@ -71,7 +71,12 @@
               <td>{{ course.status }}</td>
               <td>
                 <button class="edit-btn" (click)="onEdit(i)">✏️ Edit</button>
-                <button class="remove-btn" (click)="removeCourse(i)">🗑️ Remove</button>
+                <button *ngIf="course.status === 'Active'" class="remove-btn" (click)="removeCourse(i)">
+                  🔴 Deactivate
+                </button>
+                <button *ngIf="course.status === 'Inactive'" class="restore-btn" (click)="restoreCourse(i)">
+                  🔄 Restore
+                </button>
               </td>
             </tr>
           </tbody>

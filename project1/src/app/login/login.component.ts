@@ -30,6 +30,7 @@ export class LoginComponent {
         if (response.token) {
           localStorage.setItem('token', response.token);
           console.log('Authentication successful!');
+          alert('Authentication successful!');
           this.router.navigate(['/dashboard']);
         } else {
           console.log('No token received.');

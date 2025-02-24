@@ -143,17 +143,40 @@ export class CourselistComponent implements OnInit {
 
   // Remove a course from the list after confirmation
   removeCourse(index: number): void {
-    if (confirm("Are you sure you want to remove this course?")) {
-      const courseToRemove = this.filteredCourses[index];
-      const actualIndex = this.courses.findIndex(c =>
-        String(c.courseCode).toLowerCase() === String(courseToRemove.courseCode).toLowerCase()
-      );
-      if (actualIndex > -1) {
-        this.courses.splice(actualIndex, 1);
-      }
-      this.filteredCourses = [...this.courses];
+    if (confirm("Are you sure you want to deactivate this course?")) {
+      const courseCode = this.filteredCourses[index].courseCode;
+      
+      this.service.softDeleteCourse(courseCode).subscribe({
+        next: (res) => {
+          console.log('Course successfully deactivated:', res);
+          alert('Course successfully deactivated!');
+          this.onRefresh();
+          this.service.courselist(); // Refresh list
+        },
+        error: (err) => {
+          console.error('Error deactivating course:', err);
+        }
+      });
     }
   }
+  // Restore a course (change status from 'Inactive' to 'Active')
+restoreCourse(index: number): void {
+  if (confirm("Are you sure you want to Restore this course?")) {
+    const courseCode = this.filteredCourses[index].courseCode;
+    
+    this.service.softRestoreCourse(courseCode).subscribe({
+      next: (res) => {
+        console.log('Course successfully Restored:', res);
+        alert('Course successfully Restored!');
+        this.onRefresh();
+        this.service.courselist(); // Refresh list
+      },
+      error: (err) => {
+        console.error('Error restoring course:', err);
+      }
+    });
+  }
+}
 
   // Begin "Add Course" process by opening the add modal
   onAddCourse(): void {
@@ -211,7 +234,9 @@ export class CourselistComponent implements OnInit {
   }
 
   onLogout(): void {
-    localStorage.removeItem('token');
-    this.router.navigate(['/']);
+    if (confirm('Are you sure you want to logout?')) {
+      localStorage.removeItem('token');
+      this.router.navigate(['/login']);
+    }
   }
 }

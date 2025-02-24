@@ -12,7 +12,7 @@ export class Enrollment {
     guardianContact!: string;
     courseCode!: string;
     courseName!: string;
-    CourseStatus!: string;
+    status!: string;
     hobby!: string;
     documents!: File | null;
 }

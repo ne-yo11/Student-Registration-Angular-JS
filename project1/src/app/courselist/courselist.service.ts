@@ -13,6 +13,15 @@ export class CourselistService {
 
   constructor(private http: HttpClient) { }
 
+  // Helper function to get headers with authorization token
+  private getAuthHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: token ? `Bearer ${token}` : '',
+    });
+  }
+
   courselist() {
     const token = localStorage.getItem('token'); // Retrieve the token from localStorage
     
@@ -50,6 +59,17 @@ export class CourselistService {
   
     const url = `${environment.apiBaseUrl}/course/update/${courseCode}`; // Correctly inject courseCode
     return this.http.put(url, JSON.stringify(courseData), { headers });
+  }
+  // Soft delete a course (set status to inactive)
+  softDeleteCourse(courseCode: string) {
+    const url = `${environment.apiBaseUrl}/course/Softdelete/${courseCode}`;
+    return this.http.put(url, {}, { headers: this.getAuthHeaders() });
+  }
+
+  // Restore a course (set status to active)
+  softRestoreCourse(courseCode: string) {
+    const url = `${environment.apiBaseUrl}/course/Softrestore/${courseCode}`;
+    return this.http.put(url, {}, { headers: this.getAuthHeaders() });
   }
   
 }
