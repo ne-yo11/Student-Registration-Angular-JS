@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Masterlist } from './masterlist.model';
+import { Course } from '../courselist/course.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +11,7 @@ import { Masterlist } from './masterlist.model';
 export class MasterlistService {
 
   url: string = environment.apiBaseUrl + '/student/list'; // Endpoint URL
+  private courseListUrl: string = environment.apiBaseUrl + '/course/list';
 
   list: Masterlist[] = [];
 
@@ -38,8 +41,6 @@ export class MasterlistService {
 
         //console.log('🟢 Updated Student List:', this.list);
         //console.log('📄 First student documents:', this.list[0]?.documents);
-
-        this.updateStudentList();
       },
       error: err => {
         console.error('❌ Error fetching student list:', err);
@@ -47,9 +48,9 @@ export class MasterlistService {
     });
   }
 
-  updateStudentList() {
-    // You may need to notify the component that the data has been updated
-    // This could be done with an event or by using observables
+  updateStudentList(studentCode: string, updatedStudent: Partial<Masterlist>) {
+    const url =`${environment.apiBaseUrl}/student/update/${studentCode}`;
+    return this.http.put(url,updatedStudent, { headers: this.getAuthHeaders() });
   }
 
   softdeactivateStudent(studentCode: string) {
@@ -61,4 +62,8 @@ export class MasterlistService {
     const url = `${environment.apiBaseUrl}/student/Softreactivate/${studentCode}`;
     return this.http.put(url, {},{headers: this.getAuthHeaders()});
    }
+   // API to get the course list
+     courselist(): Observable<Course[]> {
+       return this.http.get<Course[]>(this.courseListUrl, { headers: this.getAuthHeaders() });
+     }
 }

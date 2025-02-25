@@ -140,12 +140,12 @@ export class EnrollmentComponent implements OnInit {
       // Call service to submit form data
       this.enrollmentService.registerStudent(formData).subscribe({
         next: (response) => {
-          console.log('Student Registered:', response);
+          //console.log('Student Registered:', response);
           alert('Student successfully registered!');
           this.registrationForm.reset();
         },
         error: (error) => {
-          console.error('Registration failed:', error);
+          //console.error('Registration failed:', error);
           alert('Failed to register student. Check console for details.');
           this.registrationForm.reset();
         }

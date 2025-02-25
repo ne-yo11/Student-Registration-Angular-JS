@@ -31,7 +31,7 @@ export class CourselistService {
     this.http.get(this.url, { headers })
       .subscribe({
         next: (res) => {
-          console.log('Course list:', res);
+          //console.log('Course list:', res);
           this.list = res as Course[];
         },
         error: (err) => {

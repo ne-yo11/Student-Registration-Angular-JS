@@ -54,7 +54,7 @@
                   <th>First Name</th>
                   <th>Last Name</th>
                   <th>Middle Name</th>
-                  <th>Birthdate</th>
+                  <th>Birthdate (YYYY-DD-MM)</th>
                   <th>Age</th>
                   <th>Gender</th>
                   <th>Address</th>
@@ -115,37 +115,75 @@
         </div>
         
         <!-- Edit Form Modal -->
-        <div *ngIf="isEditing" class="modal-overlay">
-          <div class="modal-content">
-            <h2>Edit Student</h2>
-            <form [formGroup]="editForm" (ngSubmit)="updateStudent()">
-              <label for="firstname">First Name:</label>
-              <input id="firstname" type="text" formControlName="firstname" placeholder="firstname">
-              
-              <label for="lastname">Last Name:</label>
-              <input id="lastname" type="text" formControlName="lastname" placeholder="lastname">
-              
-              <label for="middlename">Middle Name:</label>
-              <input id="middlename" type="text" formControlName="middlename" placeholder="middlename">
-               
-              <label for="address">Address:</label>
-              <input id="address" type="text" formControlName="address" placeholder="Address">
-              
-              <label for="contact">Contact:</label>
-              <input id="contact" type="text" formControlName="contact" placeholder="Contact">
-              
-              <label for="courseName">Course Name:</label>
-              <input id="courseName" type="text" formControlName="courseName" placeholder="Course Name">
-              
-              <label for="courseCode">Course Code:</label>
-              <input id="courseCode" type="text" formControlName="courseCode" placeholder="Course Code">
-              
-              <div class="modal-actions">
-                <button type="submit" class="save-btn">💾 Save Changes</button>
-                <button type="button" class="cancel-btn" (click)="cancelEdit()">❌ Cancel</button>
-              </div>
-            </form>
-          </div>
-        </div>
+<div *ngIf="isEditing" class="modal-overlay">
+  <div class="modal-content">
+    <h2>Edit Student</h2>
+    <form [formGroup]="editForm" (ngSubmit)="updateStudent(editingIndex!)">
+      <label for="firstname">First Name:</label>
+      <input id="firstname" type="text" formControlName="firstname" placeholder="First Name">
+
+      <label for="lastname">Last Name:</label>
+      <input id="lastname" type="text" formControlName="lastname" placeholder="Last Name">
+
+      <label for="middlename">Middle Name:</label>
+      <input id="middlename" type="text" formControlName="middlename" placeholder="Middle Name">
+
+      <label for="birthdate">Birthdate:</label>
+      <input id="birthdate" type="date" formControlName="birthdate">
+
+      <label for="age">Age:</label>
+      <input id="age" type="number" formControlName="age" placeholder="Age">
+
+      <label for="gender">Gender:</label>
+      <select id="gender" formControlName="gender">
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <label for="address">Address:</label>
+      <input id="address" type="text" formControlName="address" placeholder="Address">
+
+      <label for="contact">Contact Numbers:</label>
+      <input id="contact" type="text" formControlName="contact" placeholder="Contact Numbers">
+
+      <label for="guardianName">Guardian Name:</label>
+      <input id="guardianName" type="text" formControlName="guardianName" placeholder="Guardian Name">
+
+      <label for="guardianAddress">Guardian Address:</label>
+      <input id="guardianAddress" type="text" formControlName="guardianAddress" placeholder="Guardian Address">
+
+      <label for="guardianContact">Guardian Contact:</label>
+      <input id="guardianContact" type="text" formControlName="guardianContact" placeholder="Guardian Contact">
+
+      <label for="courseName">Course Name:</label>
+      <select
+          formControlName="courseName"
+          (change)="updateCourseCode($event)"
+          required
+        >
+          <option *ngFor="let course of courses" [value]="course.courseName">
+            {{ course.courseName }}
+          </option>
+        </select>
+      <label>Course Code:</label>
+        <input type="text" formControlName="courseCode" readonly required />
+        <label>Course Status:</label>
+        <select formControlName="status">
+          <option value="Enrolled">Enrolled</option>
+          <option value="Taken">Taken</option>
+        </select>
+
+      <label for="hobby">Hobby:</label>
+      <input id="hobby" type="text" formControlName="hobby" placeholder="Hobby">
+
+      <div class="modal-actions">
+        <button type="submit" class="save-btn">💾 Save Changes</button>
+        <button type="button" class="cancel-btn" (click)="cancelEdit()">❌ Cancel</button>
       </div>
+    </form>
+  </div>
+</div>
+
+</div>
       

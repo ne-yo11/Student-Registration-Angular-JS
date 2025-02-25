@@ -122,7 +122,7 @@ export class CourselistComponent implements OnInit {
       const courseCode = this.filteredCourses[this.editingIndex].courseCode;
       this.service.updateCourse(courseCode, this.editForm.value).subscribe({
         next: (res) => {
-          console.log('Course successfully updated:', res);
+          //console.log('Course successfully updated:', res);
           alert('Course successfully updated!');
           this.onRefresh();
           this.isEditing = false;  
@@ -148,7 +148,7 @@ export class CourselistComponent implements OnInit {
       
       this.service.softDeleteCourse(courseCode).subscribe({
         next: (res) => {
-          console.log('Course successfully deactivated:', res);
+          //console.log('Course successfully deactivated:', res);
           alert('Course successfully deactivated!');
           this.onRefresh();
           this.service.courselist(); // Refresh list
@@ -166,7 +166,7 @@ restoreCourse(index: number): void {
     
     this.service.softRestoreCourse(courseCode).subscribe({
       next: (res) => {
-        console.log('Course successfully Restored:', res);
+        //console.log('Course successfully Restored:', res);
         alert('Course successfully Restored!');
         this.onRefresh();
         this.service.courselist(); // Refresh list
@@ -195,7 +195,7 @@ restoreCourse(index: number): void {
   addCourse(): void {
     this.service.addCourse(this.addForm.value).subscribe({
       next: (res) => {
-        console.log('Course successfully added:', res);
+        //console.log('Course successfully added:', res);
         alert('Course successfully added!');
         this.onRefresh();
         this.isAdding = false;  // Close the modal
