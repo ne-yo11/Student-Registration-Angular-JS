@@ -1,245 +1,367 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonModule, NgFor } from '@angular/common';
+import { CommonModule, NgFor} from '@angular/common';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { MasterlistService } from './masterlist.service';
+import { Masterlist } from './masterlist.model';
 import { FormsModule } from '@angular/forms';
-import { CourselistService } from './courselist.service';
-import { Course } from './course.model';
+import { Course } from '../courselist/course.model';
 
 @Component({
-  selector: 'app-courselist',
+  selector: 'app-masterlist',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NgFor, FormsModule],
-  templateUrl: './courselist.component.html',
-  styleUrls: ['./courselist.component.css'],
+  imports: [CommonModule, ReactiveFormsModule, NgFor,FormsModule],
+  templateUrl: './masterlist.component.html',
+  styleUrls: ['./masterlist.component.css'],
   encapsulation: ViewEncapsulation.Emulated
 })
-export class CourselistComponent implements OnInit {
-  // Main and filtered course lists
+export class MasterlistComponent implements OnInit {
+  courseMapping: { [key: string]: string } = {};
   courses: Course[] = [];
-  filteredCourses: Course[] = [];
-  generalSearch: string = '';
-
-  // Flags for modals
-  isEditing = false;
-  isAdding = false;
-  editingIndex: number | null = null;
-
-  // Reactive form for editing a course
-  editForm: FormGroup = new FormGroup({
-    courseName: new FormControl<string>('', { nonNullable: true, validators: Validators.required }),
-    courseCode: new FormControl<string>('', { nonNullable: true, validators: Validators.required }),
-    department: new FormControl<string>('', { nonNullable: true }),
-    duration: new FormControl<string>('', { nonNullable: true }),
-    description: new FormControl<string>('', { nonNullable: true })
-  });
-
-  // Reactive form for adding a new course
-  addForm: FormGroup = new FormGroup({
-    courseName: new FormControl<string>('', { nonNullable: true, validators: Validators.required }),
-    courseCode: new FormControl<string>('', { nonNullable: true, validators: Validators.required }),
-    department: new FormControl<string>('', { nonNullable: true }),
-    duration: new FormControl<string>('', { nonNullable: true }),
-    description: new FormControl<string>('', { nonNullable: true }),
-    status: new FormControl<string>('Active', { nonNullable: true, validators: Validators.required })
-  });
-
-  constructor(private router: Router, public service: CourselistService) { }
+  constructor(private router: Router, public service: MasterlistService) { }
 
   ngOnInit(): void {
-    // Request the courses from the service
-    this.service.courselist();
-
-    // Poll for the list until it's populated (in production, consider using an observable)
-    const intervalId = setInterval(() => {
-      if (this.service.list && this.service.list.length > 0) {
-        this.updateCourseList();
-        clearInterval(intervalId);
+    this.service.getStudentList();
+    
+    this.fetchCourses();
+    this.setupBirthdateListener();
+    // Wait for the service to update the student list before proceeding
+    setTimeout(() => {
+      if (this.service.list.length > 0) {
+        this.updateStudentList();
       }
-    }, 100);
+    }, 1000); 
   }
 
-  // Update local courses from the service and refresh the filtered list
-  updateCourseList(): void {
-    this.courses = this.service.list;
-    this.filteredCourses = [...this.courses];
+  // Replace static student data with the fetched data
+  students: Masterlist[] = [];
+  filteredStudents: Masterlist[] = [];
+  generalSearch: string = '';
+  yearLevels: { [key: number]: boolean } = {}; // Stores selected year levels
+  selectedYearLevel: string = ''; // Stores selected dropdown year level
+  selectedCategory: string = '';
+
+  isEditing = false;
+  editingIndex: number | null = null;
+
+  editForm = new FormGroup({
+    firstname: new FormControl<string>('', { nonNullable: true, validators: Validators.required }),
+    lastname: new FormControl<string>('', { nonNullable: true, validators: Validators.required }),
+    middlename: new FormControl<string>('', { nonNullable: false }),
+    birthdate: new FormControl<string | null>(null, { nonNullable: true }),
+    age: new FormControl<number | null>(null, { nonNullable: true }),
+    gender: new FormControl<string>('', { nonNullable: true }),
+    address: new FormControl<string>('', { nonNullable: true }),
+    contact: new FormControl<string>('', { nonNullable: true }),
+    guardianName: new FormControl<string>('', { nonNullable: true }),
+    guardianAddress: new FormControl<string>('', { nonNullable: true }),
+    guardianContact: new FormControl<string>('', { nonNullable: true }),
+    courseName: new FormControl<string>('', { nonNullable: true }),
+    courseCode: new FormControl<string>('', { nonNullable: true }),
+    status: new FormControl<string>('', { nonNullable: true }),
+    hobby: new FormControl<string>('', { nonNullable: true }),
+  });
+
+  // Fetch the list of students from the service and assign it to the students array
+  updateStudentList() {
+    this.students = this.service.list.map(student => ({
+      ...student,
+      courseName: student.courseCode ? this.courseMapping[student.courseCode] || student.courseName : student.courseName,
+    }));
+    this.filteredStudents = [...this.students];
+  }
+ fetchCourses() {
+    this.service.courselist().subscribe({
+      next: (courses: Course[]) => {
+        
+        this.courses = courses;
+        this.courseMapping = {};
+        courses.forEach(course => {
+          this.courseMapping[course.courseName] = course.courseCode;
+        });
+        //console.log("Course Mapping:", this.courseMapping);
+      },
+      error: (error) => {
+        console.error('Failed to fetch courses:', error);
+      }
+    });    
   }
 
-  // Filter courses based on a general search query across all course properties
-  applyGeneralSearch(): void {
-    const query = this.generalSearch.toLowerCase().trim();
-    console.log("Search Query:", query); // Debugging input query
-  
-    if (!query) {
-      this.filteredCourses = [...this.courses];
-    } else {
-      this.filteredCourses = this.courses.filter(course => {
-        const status = String(course.status).trim().toLowerCase(); // Normalize status
-  
-        const match =
-          String(course.courseName).toLowerCase().includes(query) ||
-          String(course.courseCode).toLowerCase().includes(query) ||
-          String(course.department).toLowerCase().includes(query) ||
-          String(course.duration).toLowerCase().includes(query) ||
-          status === query || // STRICT MATCH for 'active' and 'inactive'
-          String(course.description).toLowerCase().includes(query);
-  
-        return match;
-      });
-    }
-  }
-  
-  
+// Function to apply search and checkbox filtering
+onSearchClick() {
+  const query = this.generalSearch.toLowerCase().trim();
 
-  // Apply filter based on course name and course code fields
-  //applyFilter(courseName: string, courseCode: string): void {
-   // const nameQuery = courseName.toLowerCase().trim();
-    //const codeQuery = courseCode.toLowerCase().trim();
-    //this.filteredCourses = this.courses.filter(course =>
-     // String(course.courseName).toLowerCase().includes(nameQuery) &&
-      //String(course.courseCode).toLowerCase().includes(codeQuery)
-    //);
-  //}
 
-  // Clear filter inputs and reset the filtered courses list
-  clearFilters(): void {
-    this.generalSearch = '';
-    this.filteredCourses = [...this.courses];
+  if(!this.selectedCategory) {
+    alert('Please select a search category!');
+    return;
   }
 
-  // Enter edit mode for a selected course
-  onEdit(index: number): void {
-    this.isEditing = true;
-    this.editingIndex = index;
-    const course = this.filteredCourses[index];
-    this.editForm.setValue({
-      courseName: String(course.courseName) || '',
-      courseCode: String(course.courseCode) || '',
-      department: String(course.department) || '',
-      duration: String(course.duration) || '',
-      description: String(course.description) || '',
+  // Apply search filter when button is clicked
+  let searchFiltered = this.students;
+  if (query) {
+    searchFiltered = this.students.filter(student => {
+      switch (this.selectedCategory) {
+        case 'By Student Code':
+          return student.studentCode?.toLowerCase().includes(query);
+        case 'By Name':
+          const fullName = `${student.firstName?.toLowerCase()} ${student.middleName?.toLowerCase()} ${student.lastName?.toLowerCase()}`;
+          return (
+            student.firstName?.toLowerCase().includes(query) ||
+            student.lastName?.toLowerCase().includes(query) ||
+            student.middleName?.toLowerCase().includes(query) ||
+            fullName.includes(query)
+          );
+        case 'By Course Name':
+          return student.courseName?.toLowerCase().includes(query);
+        default:
+          return false; // If no valid category is selected, return nothing
+      }
     });
   }
 
-  // Update course data after editing
-  updateCourse(): void {
-    if (this.editForm.valid && this.editingIndex !== null) {
-      const courseCode = this.filteredCourses[this.editingIndex].courseCode;
-      this.service.updateCourse(courseCode, this.editForm.value).subscribe({
-        next: (res) => {
-          //console.log('Course successfully updated:', res);
-          alert('Course successfully updated!');
-          this.onRefresh();
-          this.isEditing = false;  
-          this.service.courselist(); 
-        },
-        error: (err) => {
-          console.error('Error updating course:', err);
-        }
-      });
+  // If search returns no results, use only the checkbox filter
+  if (searchFiltered.length === 0) {
+    alert('No results found! Based on your search criteria.');
+    this.applyCheckboxFilter(this.students); // Fallback to checkbox-only filtering
+  } else {
+    this.applyCheckboxFilter(searchFiltered); // Apply checkbox filter on search results
+  }
+}
+
+applyCheckboxFilter(studentList: any[]) {
+  const selectedYears = Object.keys(this.yearLevels)
+    .filter(year => this.yearLevels[Number(year)]) // Get checked year levels
+    .map(Number); // Convert keys to numbers
+
+  this.filteredStudents = studentList.filter(student => {
+    const studentYearLevel = student.courseCode ? parseInt(student.courseCode.charAt(2), 10) : null;
+    return selectedYears.length === 0 || (studentYearLevel !== null && selectedYears.includes(studentYearLevel));
+  });
+}
+
+CheckboxSearch() {
+  this.applyCheckboxFilter(this.students);
+}
+
+
+clearFilters() {
+  this.generalSearch = ''; // Clear search field
+  this.selectedCategory = ''; // Reset category selection
+  this.yearLevels = {}; // Uncheck all checkboxes
+  this.filteredStudents = [...this.students]; // Reset to all students
+}
+
+
+  onEdit(index: number) {
+    this.isEditing = true;
+    this.editingIndex = index;
+    const student = this.filteredStudents[index];
+  
+    console.log('birthdate:', student.birthdate);
+  
+    let formattedBirthdate = student.birthdate ? new Date(student.birthdate + 'T00:00:00') : null;
+
+
+    
+    if (typeof student.birthdate === 'string' && student.birthdate.includes('-')) {
+      const [year, month, day] = student.birthdate.split('-').map(Number);
+      formattedBirthdate = new Date(year, month - 1, day +1); // month is zero-based
     }
+  
+    // Convert to "YYYY-MM-DD" format for <input type="date">
+    const dateForInput = formattedBirthdate ? formattedBirthdate.toISOString().split('T')[0] : null;
+
+    this.editForm.setValue({
+      firstname: student.firstName || '',
+      lastname: student.lastName || '',
+      middlename: student.middleName || '',
+      birthdate: dateForInput,  // YYYY-MM-DD format
+      age: student.age || null,
+      gender: student.gender || '',
+      address: student.address || '',
+      contact: student.contact || '',
+      guardianName: student.guardianName || '',
+      guardianAddress: student.guardianAddress || '',
+      guardianContact: student.guardianContact || '',
+      courseName: student.courseName || '',
+      courseCode: student.courseCode || '',
+      status: student.status || '',
+      hobby: student.hobby || '',
+    });
+  
+    console.log('Formatted birthdate for form:', this.editForm.value.birthdate);
+  }
+  
+  
+  
+  updateStudent(index: number | null): void {
+    if (index === null) {
+        console.error("Index is null, cannot update student.");
+        return;
+    }
+
+    // Extract form values
+    const formValues = this.editForm.value;
+
+    // Check if any required fields are empty (excluding birthdate, age, and middleName)
+    const requiredFields = Object.keys(formValues).filter(
+        key => !['birthdate', 'age', 'middlename'].includes(key)
+    );
+
+    const hasEmptyRequiredField = requiredFields.some(
+        key => formValues[key as keyof typeof formValues] === null || formValues[key as keyof typeof formValues] === ''
+    );
+
+    if (hasEmptyRequiredField) {
+        alert("Please check your details and make sure all required fields are filled out.");
+        return;
+    }
+
+    if (this.editingIndex !== null) {
+        const updatedStudent: Partial<Masterlist> = {
+            firstName: formValues.firstname!,
+            lastName: formValues.lastname!,
+            middleName: formValues.middlename!, 
+            birthdate: formValues.birthdate!,  
+            age: formValues.age!,               
+            gender: formValues.gender!,
+            address: formValues.address!,
+            contact: formValues.contact!,
+            guardianName: formValues.guardianName!,
+            guardianAddress: formValues.guardianAddress!,
+            guardianContact: formValues.guardianContact!,
+            courseName: formValues.courseName!,
+            courseCode: formValues.courseCode!,
+            status: formValues.status!,
+            hobby: formValues.hobby!,
+        };
+
+        const studentCode = this.students[this.editingIndex].studentCode;
+        //console.log('Updated student:', updatedStudent);
+        //console.log('Student Code:', studentCode);
+
+        if (studentCode) {
+            this.service.updateStudentList(studentCode, updatedStudent).subscribe({
+                next: (res) => {
+                    //console.log('Student successfully updated:', res);
+                    alert('Student successfully updated!');
+                    this.service.getStudentList(); // Refresh list after update
+                    this.isEditing = false;
+                    this.editingIndex = null;
+                    window.location.reload();
+                },
+                error: (err) => {
+                    console.error('Error updating student:', err);
+                }
+            });
+        }
+    }
+}
+
+  updateCourseCode(event: any): void { 
+    const selectedCourse = event.target.value;
+  this.editForm.patchValue({
+    courseCode: this.courseMapping[selectedCourse] || '',
+  });
   }
 
-  // Cancel the editing process
-  cancelEdit(): void {
+  cancelEdit() {
     this.isEditing = false;
     this.editingIndex = null;
   }
 
-  // Remove a course from the list after confirmation
-  removeCourse(index: number): void {
-    if (confirm("Are you sure you want to deactivate this course?")) {
-      const courseCode = this.filteredCourses[index].courseCode;
-      
-      this.service.softDeleteCourse(courseCode).subscribe({
+  downloadFile(doc: any) {
+    const byteCharacters = atob(doc.data); // Decode Base64
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: doc.fileType });
+  
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = doc.fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+  
+  removeStudent(index: number): void{
+    if (confirm("Are you sure you want to deactivate this student?")) {
+      const studentCode = this.filteredStudents[index].studentCode ?? '';
+
+      this.service.softdeactivateStudent(studentCode).subscribe({
         next: (res) => {
-          //console.log('Course successfully deactivated:', res);
-          alert('Course successfully deactivated!');
-          this.onRefresh();
-          this.service.courselist(); // Refresh list
+          //console.log('Student successfully deactivated:', res);
+          alert('Student successfully deactivated!');
+          this.service.getStudentList();
+          window.location.reload();
         },
         error: (err) => {
-          console.error('Error deactivating course:', err);
+          console.error('Error deactivating student:', err);
         }
       });
     }
   }
-  // Restore a course (change status from 'Inactive' to 'Active')
-restoreCourse(index: number): void {
-  if (confirm("Are you sure you want to Restore this course?")) {
-    const courseCode = this.filteredCourses[index].courseCode;
-    
-    this.service.softRestoreCourse(courseCode).subscribe({
-      next: (res) => {
-        //console.log('Course successfully Restored:', res);
-        alert('Course successfully Restored!');
-        this.onRefresh();
-        this.service.courselist(); // Refresh list
-      },
-      error: (err) => {
-        console.error('Error restoring course:', err);
+  restoreStudent(index: number): void {
+      if(confirm("Are you sure you want to Reactivate this student?")){
+        const studentCode = this.filteredStudents[index].studentCode ?? '';
+        this.service.softReactivateStudent(studentCode).subscribe({
+          next: (res) => {
+            //console.log('Student successfully reactivated:', res);
+            alert('Student successfully reactivated!');
+            this.service.getStudentList();
+            window.location.reload();
+          },
+          error: (err) => {
+            console.error('Error reactivating student:', err);
+          }
+        });
       }
-    });
   }
-}
-
-  // Begin "Add Course" process by opening the add modal
-  onAddCourse(): void {
-    this.isAdding = true;
-    this.addForm.reset({
-      courseName: '',
-      courseCode: '',
-      department: '',
-      duration: '',
-      description: '',
-      status: 'Active'
-    });
-  }
-
-  // Handle the add course form submission
-  addCourse(): void {
-    this.service.addCourse(this.addForm.value).subscribe({
-      next: (res) => {
-        //console.log('Course successfully added:', res);
-        alert('Course successfully added!');
-        this.onRefresh();
-        this.isAdding = false;  
-        this.service.courselist();
-      },
-      error: (err) => {
-        alert('Please check the course code and try again!');
-        console.error('Error adding course:', err);
+  // Auto-calculate Age based on Birthdate
+  setupBirthdateListener() {
+    this.editForm.controls['birthdate'].valueChanges.subscribe(birthdate => {
+      if (!birthdate) return;
+  
+      const birthDateObj = new Date(birthdate);
+      const today = new Date();
+      let age = today.getFullYear() - birthDateObj.getFullYear();
+  
+      if (
+        today.getMonth() < birthDateObj.getMonth() ||
+        (today.getMonth() === birthDateObj.getMonth() && today.getDate() < birthDateObj.getDate())
+      ) {
+        age--;
       }
+  
+      // Enable the age field before setting the value
+      this.editForm.controls['age'].enable();
+      this.editForm.controls['age'].setValue(age);
     });
-}
-
-  // Cancel the add course process
-  cancelAdd(): void {
-    this.isAdding = false;
-  }
-  onRefresh() {
-    window.location.reload();
   }
   
 
-  // Navigation functions
-  onDashboard(): void {
+  onDashboard() {
     this.router.navigate(['/dashboard']);
   }
 
-  onEnroll(): void {
+  onEnroll() {
     this.router.navigate(['/enrollment']);
   }
 
-  onMaster(): void {
-    this.router.navigate(['/masterlist']);
+  onMaster() {
+    this.router.url === '/masterlist'
+
   }
 
-  onCourse(): void {
+  onCourse() {
     this.router.navigate(['/courselist']);
   }
 
-  onLogout(): void {
+  onLogout() {
     if (confirm('Are you sure you want to logout?')) {
       localStorage.removeItem('token');
       this.router.navigate(['/login']);
