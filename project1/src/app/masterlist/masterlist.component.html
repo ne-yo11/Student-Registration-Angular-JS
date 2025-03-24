@@ -1,189 +1,173 @@
 <div class="masterlist-container">
-        <!-- Sidebar with Logo -->
-        <div class="sidebar">
-          <div class="logo-container">
-            <img src="images/logo.jpg" class="logo">
-          </div>
-          <ul>
-            <li><a (click)="onDashboard()">Dashboard</a></li>
-            <li><a (click)="onEnroll()">Enrollment</a></li>
-            <li><a (click)="onMaster()">Student Master List</a></li>
-            <li><a (click)="onCourse()">Course Master List</a></li>
-          </ul>
-          <div class="logout-container">
-            <button class="logout-btn" (click)="onLogout()">Log Out</button>
-          </div>
-        </div>
-         
-        <!-- Main Content -->
-        <div class="main-content">
-          <h1>📚 Student Master List</h1>
-          <p>Manage all Students.</p>
-         
-          <!-- Filter Section -->
-          <div class="filter-container">
-                <input
-    type="text"
-    placeholder="🔍 Search All Data"
-    [(ngModel)]="generalSearch"
-    (ngModelChange)="applyGeneralSearch()"
-  />
-            <input type="text" placeholder="🔍 Search by Name" #nameFilter>
-            <input type="text" placeholder="📚 Search by Course" #courseFilter>
-            <!-- Dropdown for Year Level -->
-  <select #yearLevelFilter>
-        <option value="">🎓 Select Year Level</option>
-        <option value="1">1st Year</option>
-        <option value="2">2nd Year</option>
-        <option value="3">3rd Year</option>
-        <option value="4">4th Year</option>
-      </select>
-            <button class="search-btn" (click)="applyFilter(nameFilter.value, courseFilter.value, yearLevelFilter.value)">
-              🔎 Search
-            </button>
-            <button class="reset-btn" (click)="clearFilters(nameFilter, courseFilter, yearLevelFilter)">🔄 Reset</button>
-          </div>
-         
-          <!-- Table -->
-          <div class="table-container">
-        <div class="table-scroll">
-            <table class="course-table">
-              <thead>
-                <tr>
-                  <th>Student Code</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Middle Name</th>
-                  <th>Birthdate (YYYY-DD-MM)</th>
-                  <th>Age</th>
-                  <th>Gender</th>
-                  <th>Address</th>
-                  <th>Contact Numbers</th>
-                  <th>Guardian Name</th>
-                  <th>Guardian Address</th>
-                  <th>Guardian Contact</th>
-                  <th>Course Name</th>
-                  <th>Course Code</th>
-                  <th>Course Status</th>
-                  <th>Certificates</th>
-                  <th>Hobby</th>            
-                  <th>Account Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let student of filteredStudents; let i = index">
-                  <td>{{ student.studentCode }}</td>
-                  <td>{{ student.firstName }}</td>
-                  <td>{{ student.lastName }}</td>
-                  <td>{{ student.middleName }}</td>
-                  <td>{{ student.birthdate }}</td>
-                  <td>{{ student.age }}</td>
-                  <td>{{ student.gender }}</td>
-                  <td>{{ student.address }}</td>
-                  <td>{{ student.contact }}</td>
-                  <td>{{ student.guardianName }}</td>
-                  <td>{{ student.guardianAddress }}</td>
-                  <td>{{ student.guardianContact }}</td>
-                  <td>{{ student.courseName }}</td>
-                  <td>{{ student.courseCode }}</td>
-                  <td>{{ student.status }}</td>
-                  <td>
-                    <ng-container *ngIf="student.documents && student.documents.length > 0; else noDocs">
-                      <button *ngFor="let doc of student.documents" (click)="downloadFile(doc)">
-                        {{ doc.fileName }}
-                      </button>
-                    </ng-container>
-                    <ng-template #noDocs>None</ng-template>
-                  </td>
-                  <td>{{ student.hobby }}</td>
-                  <td>{{ student.accountStatus }}</td>
-                  <td>
-                    <button class="edit-btn" (click)="onEdit(i)">✏️ Edit</button>
-                    <button *ngIf="student.accountStatus === 'Active'" class="remove-btn" (click)="removeStudent(i)">
-                      🔴 Deactivate
-                    </button>
-                    <button *ngIf="student.accountStatus === 'Inactive'" class="restore-btn" (click)="restoreStudent(i)">
-                      🔄 Activate
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-        </div>
-          </div>
-        </div>
-        
-        <!-- Edit Form Modal -->
-<div *ngIf="isEditing" class="modal-overlay">
-  <div class="modal-content">
-    <h2>Edit Student</h2>
-    <form [formGroup]="editForm" (ngSubmit)="updateStudent(editingIndex!)">
-      <label for="firstname">First Name:</label>
-      <input id="firstname" type="text" formControlName="firstname" placeholder="First Name">
+  <!-- Sidebar with Logo -->
+  <div class="sidebar">
+    <div class="logo-container">
+      <img src="images/logo.jpg" class="logo" alt="Logo">
+    </div>
+    <ul>
+      <li><a (click)="onDashboard()">Dashboard</a></li>
+      <li><a (click)="onEnroll()">Enrollment</a></li>
+      <li><a (click)="onMaster()">Student Master List</a></li>
+      <li><a (click)="onCourse()" class="active">Course Master List</a></li>
+    </ul>
+    <div class="logout-container">
+      <button class="logout-btn" (click)="onLogout()">Log Out</button>
+    </div>
+  </div>
 
-      <label for="lastname">Last Name:</label>
-      <input id="lastname" type="text" formControlName="lastname" placeholder="Last Name">
+  <!-- Main Content -->
+  <div class="main-content">
+    <h1>📚 Course Master List</h1>
+    <p>Manage all courses.</p>
 
-      <label for="middlename">Middle Name:</label>
-      <input id="middlename" type="text" formControlName="middlename" placeholder="Middle Name">
+    <!-- Filter Section -->
+    <div class="filter-container">
+      <input type="text"
+             placeholder="🔍 Search Here"
+             [(ngModel)]="generalSearch"
+             (ngModelChange)="applyGeneralSearch()" />
+      <!--<input type="text"
+             placeholder="📚 Search by Course Name"
+             #courseFilter />
+      <input type="text"
+             placeholder="🔢 Search by Course  Code"
+             #codeFilter />
+      <button class="search-btn"
+              (click)="applyFilter(courseFilter.value, codeFilter.value)">
+        🔎 Search
+      </button>-->
+      <button class="reset-btn"
+              (click)="clearFilters()">
+        🔄 Reset
+      </button>
+      <!-- Add Course Button -->
+      <button class="add-btn" (click)="onAddCourse()">
+        ➕ Add Course
+      </button>
+    </div>
 
-      <label for="birthdate">Birthdate:</label>
-      <input id="birthdate" type="date" formControlName="birthdate">
-
-      <label for="age">Age:</label>
-      <input id="age" type="number" formControlName="age" placeholder="Age">
-
-      <label for="gender">Gender:</label>
-      <select id="gender" formControlName="gender">
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-        <option value="Other">Other</option>
-      </select>
-
-      <label for="address">Address:</label>
-      <input id="address" type="text" formControlName="address" placeholder="Address">
-
-      <label for="contact">Contact Numbers:</label>
-      <input id="contact" type="text" formControlName="contact" placeholder="Contact Numbers">
-
-      <label for="guardianName">Guardian Name:</label>
-      <input id="guardianName" type="text" formControlName="guardianName" placeholder="Guardian Name">
-
-      <label for="guardianAddress">Guardian Address:</label>
-      <input id="guardianAddress" type="text" formControlName="guardianAddress" placeholder="Guardian Address">
-
-      <label for="guardianContact">Guardian Contact:</label>
-      <input id="guardianContact" type="text" formControlName="guardianContact" placeholder="Guardian Contact">
-
-      <label for="courseName">Course Name:</label>
-      <select
-          formControlName="courseName"
-          (change)="updateCourseCode($event)"
-          required
-        >
-          <option *ngFor="let course of courses" [value]="course.courseName">
-            {{ course.courseName }}
-          </option>
-        </select>
-      <label>Course Code:</label>
-        <input type="text" formControlName="courseCode" readonly required />
-        <label>Course Status:</label>
-        <select formControlName="status">
-          <option value="Enrolled">Enrolled</option>
-          <option value="Taken">Taken</option>
-        </select>
-
-      <label for="hobby">Hobby:</label>
-      <input id="hobby" type="text" formControlName="hobby" placeholder="Hobby">
-
-      <div class="modal-actions">
-        <button type="submit" class="save-btn">💾 Save Changes</button>
-        <button type="button" class="cancel-btn" (click)="cancelEdit()">❌ Cancel</button>
+    <!-- Table -->
+    <div class="table-container">
+      <div class="table-scroll">
+        <table class="course-table">
+          <thead>
+            <tr>
+              <th>Course Name</th>
+              <th>Course Code</th>
+              <th>Department</th>
+              <th>Duration(Semesters)</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let course of filteredCourses; let i = index">
+              <td>{{ course.courseName }}</td>
+              <td>{{ course.courseCode }}</td>
+              <td>{{ course.department }}</td>
+              <td>{{ course.duration }}</td>
+              <td>{{ course.description }}</td>
+              <td>{{ course.status }}</td>
+              <td>
+                <button class="edit-btn" (click)="onEdit(i)">✏️ Edit</button>
+                <button *ngIf="course.status === 'Active'" class="remove-btn" (click)="removeCourse(i)">
+                  🔴 Deactivate
+                </button>
+                <button *ngIf="course.status === 'Inactive'" class="restore-btn" (click)="restoreCourse(i)">
+                  🔄 Restore
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </form>
+    </div>
+  </div>
+
+  <!-- Edit Form Modal -->
+  <div *ngIf="isEditing" class="modal-overlay">
+    <div class="modal-content">
+      <h2>Edit Course</h2>
+      <form [formGroup]="editForm" (ngSubmit)="updateCourse()">
+        <label for="courseName">Course Name:</label>
+        <input id="courseName"
+               type="text"
+               formControlName="courseName"
+               placeholder="Course Name" />
+
+        <label for="courseCode">Course Code:</label>
+        <input id="courseCode"
+               type="text"
+               formControlName="courseCode"
+               placeholder="Course Code" readonly/>
+
+        <label for="department">Department:</label>
+        <input id="department"
+               type="text"
+               formControlName="department"
+               placeholder="Department" />
+
+        <label for="duration">Duration:</label>
+        <input id="duration"
+               type="text"
+               formControlName="duration"
+               placeholder="Duration" />
+
+        <label for="description">Description:</label>
+        <input id="description"
+               type="text"
+               formControlName="description"
+               placeholder="Description" />
+
+        <div class="modal-actions">
+          <button type="submit" class="save-btn">💾 Save Changes</button>
+          <button type="button" class="cancel-btn" (click)="cancelEdit()">❌ Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Add Course Modal -->
+  <div *ngIf="isAdding" class="modal-overlay">
+    <div class="modal-content">
+      <h2>Add Course</h2>
+      <form [formGroup]="addForm" (ngSubmit)="addCourse()">
+        <label for="addCourseName">Course Name:</label>
+        <input id="addCourseName"
+               type="text"
+               formControlName="courseName"
+               placeholder="Course Name" />
+
+        <label for="addCourseCode">Course Code:</label>
+        <input id="addCourseCode"
+               type="text"
+               formControlName="courseCode"
+               placeholder="Course Code" />
+
+        <label for="addDepartment">Department:</label>
+        <input id="addDepartment"
+               type="text"
+               formControlName="department"
+               placeholder="Department" />
+
+        <label for="addDuration">Duration:</label>
+        <input id="addDuration"
+               type="text"
+               formControlName="duration"
+               placeholder="Duration" />
+
+        <label for="addDescription">Description:</label>
+        <input id="addDescription"
+               type="text"
+               formControlName="description"
+               placeholder="Description" />
+
+        <div class="modal-actions">
+          <button type="submit" class="save-btn">💾 Save Course</button>
+          <button type="button" class="cancel-btn" (click)="cancelAdd()">❌ Cancel</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
-
-</div>
-      
